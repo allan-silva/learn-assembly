@@ -21,7 +21,7 @@ main:
 ; push the string char per char on the stack
     xor rax, rax        ; clear rax
     mov rbx, strng      ; address of the string in rbx (rbx can be optionally a base pointer)
-
+    mov rcx, strgnLen
     mov r12, 0          ; use r12 as pointer
     pushLoop:
         mov al, byte[rbx+r12]   ;mov char into rax
