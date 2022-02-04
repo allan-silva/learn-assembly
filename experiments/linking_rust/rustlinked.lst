@@ -1,0 +1,62 @@
+     1                                  ;rustlinked.asm
+     2                                  
+     3                                  extern print_int_as_binary
+     4                                  extern say_hi
+     5                                  
+     6                                  section .data
+     7 00000000 6E756D6265724F6E65-         numberOneId         db  "numberOne", 0
+     7 00000009 00                 
+     8 0000000A 0100000000000000            numberOne           dq  1
+     9 00000012 6E756D62657254776F-         numberTwoId         db  "numberTwo", 0
+     9 0000001B 00                 
+    10 0000001C 0200000000000000            numberTwo           dq  2
+    11 00000024 6E756D6265724D696E-         numberMinusOneId    db  "numberMinusOne", 0
+    11 0000002D 75734F6E6500       
+    12 00000033 FFFFFFFFFFFFFFFF            numberMinusOne      dq  -1
+    13 0000003B 6E756D6265724D696E-         numberMinusTwoId    db  "numberMinusOne", 0
+    13 00000044 75734F6E6500       
+    14 0000004A FEFFFFFFFFFFFFFF            numberMinusTwo      dq  -2
+    15                                  section .bss
+    16                                  section .text
+    17                                      global main
+    18                                  main:
+    19 00000000 55                          push rbp
+    20 00000001 4889E5                      mov rbp, rsp
+    21                                  
+    22                                  ; call no parameter function
+    23 00000004 E8(00000000)                call say_hi
+    24                                  
+    25                                  ; call function with two parameters
+    26                                  ; identifier: The value identifier
+    27                                  ; value: The 64bits integer value to display a log message with big endian bit order (I think)
+    28                                  
+    29 00000009 48BF-                       mov rdi, numberOneId    ; Identifier
+    29 0000000B [0000000000000000] 
+    30 00000013 488B3425[0A000000]          mov rsi, [numberOne]    ; Value
+    31 0000001B B800000000                  mov rax, 0
+    32 00000020 E8(00000000)                call print_int_as_binary
+    33                                  
+    34 00000025 48BF-                       mov rdi, numberTwoId    ; Identifier
+    34 00000027 [1200000000000000] 
+    35 0000002F 488B3425[1C000000]          mov rsi, [numberTwo]    ; Value
+    36 00000037 B800000000                  mov rax, 0
+    37 0000003C E8(00000000)                call print_int_as_binary
+    38                                  
+    39 00000041 48BF-                       mov rdi, numberMinusOneId    ; Identifier
+    39 00000043 [2400000000000000] 
+    40 0000004B 488B3425[33000000]          mov rsi, [numberMinusOne]    ; Value
+    41 00000053 B800000000                  mov rax, 0
+    42 00000058 E8(00000000)                call print_int_as_binary
+    43                                  
+    44 0000005D 48BF-                       mov rdi, numberMinusTwoId    ; Identifier
+    44 0000005F [3B00000000000000] 
+    45 00000067 488B3425[4A000000]          mov rsi, [numberMinusTwo]    ; Value
+    46 0000006F B800000000                  mov rax, 0
+    47 00000074 E8(00000000)                call print_int_as_binary
+    48                                  
+    49 00000079 4889EC                      mov rsp, rbp
+    50 0000007C 5D                          pop rbp
+    51                                  
+    52 0000007D B83C000000                  mov     rax, 60     ;60 = exit
+    53 00000082 BF00000000                  mov     rdi, 0      ;0 = success exit code
+    54 00000087 0F05                        syscall
