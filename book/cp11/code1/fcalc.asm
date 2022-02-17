@@ -14,8 +14,8 @@ section .bss
 section .text
     global main
 main:
-    ; push rbp
-    ; mov rbp, rsp
+    push rbp
+    mov rbp, rsp
 ; print numbers
     movsd       xmm0, [number1]
     movsd       xmm1, [number2]
